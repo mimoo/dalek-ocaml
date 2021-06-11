@@ -17,7 +17,7 @@
 
 (library
  (name lib)
- (public_name x25519)
+ (public_name x25519-dalek)
  (libraries core_kernel)
  (foreign_archives dalek_wrapper)
  (inline_tests)

@@ -39,3 +39,12 @@ let%test_unit "serialization of private key" =
   let shared_secret = PrivateKey.diffie_hellman priv pub in
   let shared_secret2 = PrivateKey.diffie_hellman priv2 pub in
   [%test_eq: char array] shared_secret.inner shared_secret2.inner
+
+let%test_unit "serialization of public key" =
+  let priv = PrivateKey.generate () in
+  let pub = PrivateKey.(generate () |> to_public_key) in
+  let pub_bytes = PublicKey.to_bytes pub in
+  let pub2 = PublicKey.of_bytes pub_bytes in
+  let shared_secret = PrivateKey.diffie_hellman priv pub in
+  let shared_secret2 = PrivateKey.diffie_hellman priv pub2 in
+  [%test_eq: char array] shared_secret.inner shared_secret2.inner

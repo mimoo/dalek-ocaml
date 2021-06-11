@@ -1,0 +1,13 @@
+[package]
+name = "dalek-wrapper"
+version = "0.1.0"
+authors = ["David Wong <davidwong.crypto@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+x25519-dalek = "1.1.1"
+ocaml = "0.22.0"
+rand = "0.7.1"

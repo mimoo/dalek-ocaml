@@ -1,0 +1,25 @@
+; don't copy target to _build
+
+(dirs :standard \ "dalek-wrapper/target" "dalek-wrapper/Cargo.lock")
+
+; creates the rust library if any rust file changes
+
+(rule
+ (target libdalek_wrapper.a)
+ (deps
+  (source_tree dalek-wrapper))
+ (action
+  (progn
+   (run cargo build --release --manifest-path dalek-wrapper/Cargo.toml)
+   (run cp dalek-wrapper/target/release/libdalek_wrapper.a .))))
+
+; tests?
+
+(library
+ (name lib)
+ (public_name x25519)
+ (libraries core_kernel)
+ (foreign_archives dalek_wrapper)
+ (inline_tests)
+ (preprocess
+  (pps ppx_jane ppx_inline_test)))

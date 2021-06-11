@@ -10,4 +10,4 @@ crate-type = ["staticlib"]
 [dependencies]
 x25519-dalek = "1.1.1"
 ocaml = "0.22.0"
-rand = "0.7.1"
+rand = "0.7.1" # dalek uses an old version

@@ -2,11 +2,6 @@ use rand::prelude::*;
 use std::convert::TryInto as _;
 use x25519_dalek as x25519;
 
-// to delete
-extern "C" fn mytype_finalizer(_: ocaml::Raw) {
-    println!("This runs when the value gets garbage collected");
-}
-
 // [u8; 32] type (necessary for ocaml)
 
 #[derive(ocaml::IntoValue, ocaml::FromValue)]
@@ -24,9 +19,7 @@ unsafe impl<'a> ocaml::FromValue<'a> for PrivateKey {
     }
 }
 
-ocaml::custom!(PrivateKey {
-    finalize: mytype_finalizer,
-});
+ocaml::custom!(PrivateKey);
 
 #[ocaml::func]
 pub fn new() -> PrivateKey {
@@ -73,9 +66,7 @@ unsafe impl<'a> ocaml::FromValue<'a> for PublicKey {
     }
 }
 
-ocaml::custom!(PublicKey {
-    finalize: mytype_finalizer,
-});
+ocaml::custom!(PublicKey);
 
 #[ocaml::func]
 pub fn public_to_bytes(public_key: PublicKey) -> Array32Bytes {

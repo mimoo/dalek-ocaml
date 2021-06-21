@@ -1,6 +1,6 @@
 # Dalek-OCaml
 
-These are bindings to the dalek suite of libraries.
+These are bindings to the dalek suite of libraries. These might have memory leaks :D
 
 ## X25519
 

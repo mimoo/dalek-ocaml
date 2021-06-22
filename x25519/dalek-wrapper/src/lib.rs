@@ -19,7 +19,16 @@ unsafe impl<'a> ocaml::FromValue<'a> for PrivateKey {
     }
 }
 
-ocaml::custom!(PrivateKey);
+impl PrivateKey {
+    unsafe extern "C" fn finalize(v: ocaml::Raw) {
+        let ptr = v.as_pointer::<PrivateKey>();
+        ptr.drop_in_place()
+    }
+}
+
+ocaml::custom!(PrivateKey {
+    finalize: PrivateKey::finalize,
+});
 
 #[ocaml::func]
 pub fn new() -> PrivateKey {
@@ -66,7 +75,16 @@ unsafe impl<'a> ocaml::FromValue<'a> for PublicKey {
     }
 }
 
-ocaml::custom!(PublicKey);
+impl PublicKey {
+    unsafe extern "C" fn finalize(v: ocaml::Raw) {
+        let ptr = v.as_pointer::<PublicKey>();
+        ptr.drop_in_place()
+    }
+}
+
+ocaml::custom!(PublicKey {
+    finalize: PublicKey::finalize,
+});
 
 #[ocaml::func]
 pub fn public_to_bytes(public_key: PublicKey) -> Array32Bytes {

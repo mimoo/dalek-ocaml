@@ -92,10 +92,7 @@ pub fn public_to_bytes(public_key: PublicKey) -> Array32Bytes {
 }
 
 #[ocaml::func]
-pub fn public_from_bytes(bytes: Array32Bytes) -> PublicKey {
-    let public_bytes: [u8; 32] = bytes
-        .0
-        .try_into()
-        .expect("public key was not a 32-byte array");
-    PublicKey(x25519::PublicKey::from(public_bytes))
+pub fn public_from_bytes(bytes: Array32Bytes) -> Option<PublicKey> {
+    let public_bytes: [u8; 32] = bytes.0.try_into().ok()?;
+    Some(PublicKey(x25519::PublicKey::from(public_bytes)))
 }
